@@ -231,7 +231,7 @@ class MainWindow(QMainWindow):
         self.close()
 
     def pay(self):
-        self.add_payment_window = AddOrderWindow()
+        self.add_payment_window = AddPaymentWindow()
         self.add_payment_window.show()
         self.close()
 
@@ -250,7 +250,6 @@ class AddOrderWindow(QMainWindow):
         self.add_button = QPushButton('Оформить заказ')
 
         self.layout.addRow("Номер продукта:", self.product_id_input)
-        self.layout.addRow("Номер пользователя:", self.customer_id_input)
         self.layout.addRow("Номер продавца:", self.salesman_id_input)
         self.layout.addWidget(self.add_button)
 
@@ -261,7 +260,6 @@ class AddOrderWindow(QMainWindow):
 
     def add_order(self):
         product_id = self.product_id_input.text()
-        customer_id = self.customer_id_input.text()
         salesman_id = self.salesman_id_input.text()
 
 
@@ -270,8 +268,8 @@ class AddOrderWindow(QMainWindow):
             conn = sqlite3.connect("store.db")
             cursor = conn.cursor()
 
-            cursor.execute("INSERT INTO Orders (Product_id, Customer_id, Salesman_id) VALUES (?, ?, ?)",
-                               (product_id, customer_id, salesman_id))
+            cursor.execute("INSERT INTO Orders (Product_id, Salesman_id) VALUES (?, ?)",
+                               (product_id, salesman_id))
             conn.commit()
             print(f"Заказ оформлен.")  # Отладка
             conn.close()
@@ -289,13 +287,13 @@ class AddPaymentWindow(QMainWindow):
         self.layout = QFormLayout()
 
         self.order_id_input = QLineEdit()
-        self.customer_id_input = QLineEdit()
+        self.cashier_id_input = QLineEdit()
         self.salesman_id_input = QLineEdit()
         self.add_button = QPushButton('Оформить оплату')
 
-        self.layout.addRow("Номер заказа:", self.order_id_input)
-        self.layout.addRow("Номер пользователя:", self.customer_id_input)
-        self.layout.addRow("Номер продавца:", self.salesman_id_input)
+        self.layout.addRow('Номер заказа:', self.order_id_input)
+        self.layout.addRow('Номер продавца:', self.salesman_id_input)
+        self.layout.addRow('Номер кассира:', self.cashier_id_input)
         self.layout.addWidget(self.add_button)
 
         self.add_button.clicked.connect(self.add_payment)
@@ -305,17 +303,16 @@ class AddPaymentWindow(QMainWindow):
 
     def add_payment(self):
         order_id = self.order_id_input.text()
-        customer_id = self.customer_id_input.text()
         salesman_id = self.salesman_id_input.text()
-
+        cashier_id = self.cashier_id_input.text()
 
         # Добавление новой оплаты в базе данных
         try:
             conn = sqlite3.connect("store.db")
             cursor = conn.cursor()
 
-            cursor.execute("INSERT INTO Payment (Order_id, Customer_id, Salesman_id) VALUES (?, ?, ?)",
-                               (order_id, customer_id, salesman_id))
+            cursor.execute("INSERT INTO Payment (Order_id, Salesman_id, Cashier_id) VALUES (?, ?, ?)",
+                               (order_id, salesman_id, cashier_id))
             conn.commit()
             print(f"Оплата оформлена.")  # Отладка
             conn.close()

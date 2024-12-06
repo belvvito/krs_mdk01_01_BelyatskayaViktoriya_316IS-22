@@ -482,7 +482,7 @@ class AddCashierWindow(QMainWindow):
 
         self.fio_cashier_input = QLineEdit()
         self.phone_cashier_input = QLineEdit()
-        self.add_button = QPushButton('Добавить кассиров')
+        self.add_button = QPushButton('Добавить кассира')
 
         self.layout.addRow("ФИО кассира:", self.fio_cashier_input)
         self.layout.addRow("Номер телефона кассира:", self.phone_cashier_input)
@@ -495,7 +495,7 @@ class AddCashierWindow(QMainWindow):
 
         self.fio_saleman_input = QLineEdit()
         self.phone_saleman_input = QLineEdit()
-        self.add_button = QPushButton('Добавить продавцов')
+        self.add_button = QPushButton('Добавить продавца')
 
         self.layout.addRow("ФИО продавца:", self.fio_saleman_input)
         self.layout.addRow("Номер телефона продавца:", self.phone_saleman_input)
